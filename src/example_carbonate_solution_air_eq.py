@@ -78,3 +78,7 @@ print(sys0.pH)
 sys1 = System(Na, carbCO2)
 sys1.pHsolve()
 print(sys1.pH)
+
+# generate full report (system_print)
+print()
+print(sys1)
