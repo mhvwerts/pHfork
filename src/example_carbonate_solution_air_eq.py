@@ -67,9 +67,11 @@ carb = AcidAq(**H2CO3,
               conc = 0.30)
 
 Na = IonAq(charge = +1,
-           conc = 0.45)
+           conc = 0.45,
+           name = 'Na')
 
-carbCO2 = AcidGasEq(**H2CO3_aireq)
+carbCO2 = AcidGasEq(**H2CO3_aireq,
+                    name = 'carbonic') #TODO: list with different ion names
 
 sys0 = System(Na, carb)
 sys0.pHsolve()
