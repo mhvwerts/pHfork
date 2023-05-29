@@ -284,8 +284,11 @@ class System:
 
                 props = zip(cpd.charge, kas, pkas, concs)
                 for charge, ka, pka, conc in props:
-                    prt_str += acid_line.format(name, charge, ka, pka, 
+                    if ka is not np.nan:
+                        prt_str += acid_line.format(name, charge, ka, pka, 
                                             conc)
+                    else:
+                        prt_str += ion_line.format(name, charge, conc)
 
                 charge_conc += (cpd.charge*concs).sum()
 
