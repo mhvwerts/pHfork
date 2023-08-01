@@ -242,11 +242,7 @@ Titration Curves
 ----------------
 
 Using a simple loop, we can also construct arbitrary titration curves as well.
-In this example, we will titrate |H3PO4| with NaOH. The ``guess_est`` keyword
-argument for the ``System.pHsolve`` method forces the calculation of a best
-guess for starting the pH optimization algorithm. This may speed up the
-evaluation of the pH and can also be used if the minimizer throws an error
-during the pH calculation. 
+In this example, we will titrate |H3PO4| with NaOH.
 
 .. code:: python
 
@@ -257,7 +253,7 @@ during the pH calculation.
     >>> for mol in na_moles:
     >>>     na = Inert(charge=1, conc=mol/sol_volume)
     >>>     system = System(phos, na)
-    >>>     system.pHsolve(guess_est=True)
+    >>>     system.pHsolve()
     >>>     phs.append(system.pH)
     >>> plt.plot(na_moles, phs)
     >>> plt.show()
