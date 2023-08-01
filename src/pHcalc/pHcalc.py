@@ -262,7 +262,8 @@ class System:
         return x
         
 
-    def pHsolve(self, bracket=(-1, 15), method='brentq', xtol=1e-5, options=None):
+    def pHsolve(self, bracket=(-1, 15), method='brentq', xtol=1e-5, options=None,
+                guess=None, guess_est=None, est_num=None, tol=None):
         '''Solve the pH of the system.
 
         The pH solving is done using a root-search algorithm which
@@ -290,6 +291,15 @@ class System:
         options : dict, optional (default None)
             A dictionary of solver options.
         '''
+        if guess is not None:
+            print('Warning: option "guess" will be ignored.')
+        if guess_est is not None:
+            print('Warning: option "guess_est" will be ignored.')
+        if est_num is not None:
+            print('Warning: option "est_num" will be ignored.')
+        if tol is not None:
+            print('Warning: option "tol" will be ignored.')
+
         options = options or dict()
         self.pHsolution = spo.root_scalar(self._diff_pos_neg, bracket=bracket, method=method, xtol=xtol, **options)
 
@@ -298,7 +308,6 @@ class System:
             print(self.pHsolution.flag)
 
         self.pH = self.pHsolution.root
-
 
 
 if __name__ == '__main__':
