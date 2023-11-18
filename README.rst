@@ -11,7 +11,7 @@ Scipy. If you will be plotting the data, then there is an `optional
 dependency`_ on Matplotlib as well.  
 
 All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who should look 
-it up in reliable literature references). *pHcalc* is not a database, it only solves the
+them up in reliable literature references). *pHcalc* is not a database, it only solves the
 coupled mass-action equilibrium equations with the parameters (chemical property data) given by the user. 
 The calculations considers 'effective' equilibrium constants, and ignores any changes in activity coefficients.
 
