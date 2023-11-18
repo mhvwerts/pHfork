@@ -1,7 +1,7 @@
 pHcalc (a fork)
 ###############
 
-This fork is the adapted version of *pHcalc* used in our lab.
+This fork is the version of *pHcalc* adapted for use in our lab.
 
 *pHcalc* is a Python library for systematic calculations of solution pH,
 distribution diagrams, and titration curves, using the law of mass action,
