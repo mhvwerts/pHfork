@@ -8,7 +8,8 @@ distribution diagrams, and titration curves, using the simple law of mass action
 
 Its only dependencies_ are Numpy and
 Scipy. If you will be plotting the data, then there is an `optional
-dependency`_ on Matplotlib as well.  
+dependency`_ on Matplotlib as well. For running the comparison between *pHcalc* and
+*PHREEQC*, ``phreeqpython`` is needed. 
 
 All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who should look 
 them up in reliable literature references). *pHcalc* is not a database, it only solves the
@@ -21,7 +22,7 @@ TO DO
 
 * **Documentation out of date!** Update this README documentation to reflect latest changes
 
-* Docstring for `AcidGasEq`
+* Docstring for ``AcidGasEq``
 
 * Curate examples, and devise a simple, unique test script for regression testing
 
@@ -44,13 +45,16 @@ Optional Packages
 
 * Matplotlib >= 1.5
 
+* ``phreeqpython``: https://github.com/Vitens/phreeqpython
+
 Installation
 ------------
 
 This is a fork of the original *pHcalc*. The fork does not have an installer.
-The folder `src\pHcalc` can simply be copied to the project folder, making the
-module available for import to scripts in the project folder. *pHcalc* is 
+*pHcalc* is 
 'pure scientific Python' (only dependencies are numpy, scipy, matplotlib).
+The folder ``src\pHcalc`` can simply be copied to the project folder, making the
+module available for import to scripts in the project folder. 
 
 The **original** *pHcalc* is available via ``pip``, ``conda``, or the `GitHub repo`_ (most
 recent).
