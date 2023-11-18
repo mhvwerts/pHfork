@@ -43,27 +43,29 @@ pKa_H2CO3 = [6.35, 10.33]
 #
 # 1. Simple example: pure water
 #
-sys0 = System()
-sys0.pHsolve()
-print('pure water, closed system                     : pH = ', sys0.pH)
 
-ambient = AcidGasEq(charge = 0,
-                  pKa = pKa_H2CO3,
-                  Hs = H_s_CO2,
-                  Pgas = P_CO2)
-syst = System(ambient)
-syst.pHsolve()
-print('pure water, air-equilibrated system (in 2021) : pH = ', syst.pH)
-
-ambient1972 = AcidGasEq(charge = 0,
+def example1():
+    sys0 = System()
+    sys0.pHsolve()
+    print('pure water, closed system                     : pH = ', sys0.pH)
+    
+    ambient = AcidGasEq(charge = 0,
                       pKa = pKa_H2CO3,
                       Hs = H_s_CO2,
-                      Pgas = P_CO2_1972)
-syst1972 = System(ambient1972)
-syst1972.pHsolve()
-print('pure water, air-equilibrated system (in 1972) : pH = ', syst1972.pH)
-
-print()
+                      Pgas = P_CO2)
+    syst = System(ambient)
+    syst.pHsolve()
+    print('pure water, air-equilibrated system (in 2021) : pH = ', syst.pH)
+    
+    ambient1972 = AcidGasEq(charge = 0,
+                          pKa = pKa_H2CO3,
+                          Hs = H_s_CO2,
+                          Pgas = P_CO2_1972)
+    syst1972 = System(ambient1972)
+    syst1972.pHsolve()
+    print('pure water, air-equilibrated system (in 1972) : pH = ', syst1972.pH)
+    
+    print()
 
 
 #
@@ -83,52 +85,58 @@ print()
 # pHcalc uses simple mass-action law with constant equilibrium constants and
 # actual concentrations
 
+def example2_benchmark(paramlist):
+    # CO2 value used by aqion (watch out: aqion uses pCO2, not partial pressure)
+    aqionP_CO2 = 10**-3.408 # conversion of pCO2 into P_CO2 [atm]
+    print('Using partial CO2 pressure: {0:5.3e} atm (aqion value)'.\
+          format(aqionP_CO2))
+    
+    for param in paramlist:
+        ambient = AcidGasEq(charge = 0,
+                          pKa = pKa_H2CO3,
+                          Hs = H_s_CO2,
+                          Pgas = aqionP_CO2)
+        if param['ionconc'] is None:
+            syst = System(ambient)
+        else:
+            ion = IonAq(charge = param['ioncharge'],
+                        conc = param['ionconc'])
+            syst = System(ion, ambient)
+        syst.pHsolve()
+        DIC = ambient.conc # the total concentration of dissolved carbonic gas
+        print('{0:40s} | DIC = {1:7.3e} M | pH = {2:5.2f} [aqion: {3:5.2f}]'.\
+              format(param['descr'], DIC, syst.pH, param['aqion_pH']))
+    
 
-# CO2 value used by aqion (watch out: aqion uses pCO2, not partial pressure)
-aqionP_CO2 = 10**-3.408 # conversion of pCO2 into P_CO2 [atm]
-print('Using partial CO2 pressure: {0:5.3e} atm (aqion value)'.\
-      format(aqionP_CO2))
 
-# Test cases
-paramlist = [
-    {'descr':       '0.1 M HCl(aq) in eq. with atmosphere',
-     'ioncharge':  -1,
-     'ionconc':     0.1,
-     'aqion_pH':    1.08},
-    {'descr':       '1 mM HCl(aq) in eq. with atmosphere',
-     'ioncharge':  -1,
-     'ionconc':     0.001,
-     'aqion_pH':    3.02},
-    {'descr':       'pure water in eq. with atmosphere',
-     'ioncharge':   None,
-     'ionconc':     None,
-     'aqion_pH':    5.61},
-    {'descr':       '1 mM NaOH(aq) in eq. with atmosphere',
-     'ioncharge':   1,
-     'ionconc':     0.001,
-     'aqion_pH':    8.20},
-    {'descr':       '10 mM NaOH(aq) in eq. with atmosphere',
-     'ioncharge':   1,
-     'ionconc':     0.01,
-     'aqion_pH':    9.11},
-    {'descr':       '0.1 M NaOH(aq) in eq. with atmosphere',
-     'ioncharge':   1,
-     'ionconc':     0.1,
-     'aqion_pH':    9.71},
-    ]
-
-for param in paramlist:
-    ambient = AcidGasEq(charge = 0,
-                      pKa = pKa_H2CO3,
-                      Hs = H_s_CO2,
-                      Pgas = aqionP_CO2)
-    if param['ionconc'] is None:
-        syst = System(ambient)
-    else:
-        ion = IonAq(charge = param['ioncharge'],
-                    conc = param['ionconc'])
-        syst = System(ion, ambient)
-    syst.pHsolve()
-    DIC = ambient.conc # the total concentration of dissolved carbonic gas
-    print('{0:40s} | DIC = {1:7.3e} M | pH = {2:5.2f} [aqion: {3:5.2f}]'.\
-          format(param['descr'], DIC, syst.pH, param['aqion_pH']))
+if __name__ == '__main__': 
+    example1()
+    
+    # Test cases for example2_benchmark
+    paramlist = [
+        {'descr':       '0.1 M HCl(aq) in eq. with atmosphere',
+         'ioncharge':  -1,
+         'ionconc':     0.1,
+         'aqion_pH':    1.08},
+        {'descr':       '1 mM HCl(aq) in eq. with atmosphere',
+         'ioncharge':  -1,
+         'ionconc':     0.001,
+         'aqion_pH':    3.02},
+        {'descr':       'pure water in eq. with atmosphere',
+         'ioncharge':   None,
+         'ionconc':     None,
+         'aqion_pH':    5.61},
+        {'descr':       '1 mM NaOH(aq) in eq. with atmosphere',
+         'ioncharge':   1,
+         'ionconc':     0.001,
+         'aqion_pH':    8.20},
+        {'descr':       '10 mM NaOH(aq) in eq. with atmosphere',
+         'ioncharge':   1,
+         'ionconc':     0.01,
+         'aqion_pH':    9.11},
+        {'descr':       '0.1 M NaOH(aq) in eq. with atmosphere',
+         'ioncharge':   1,
+         'ionconc':     0.1,
+         'aqion_pH':    9.71},
+        ]
+    example2_benchmark(paramlist)
