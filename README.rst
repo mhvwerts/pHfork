@@ -1,10 +1,12 @@
-pHcalc
-######
+pHcalc (a fork)
+###############
 
 *pHcalc* is a Python library for systematic calculations of solution pH,
 distribution diagrams, and titration curves.
 
-This package is Python3 compatible with dependencies_ only on Numpy and
+This fork is the adapted version of pHcalc used in our lab.
+
+The *pHcalc* a Python3 package with dependencies_ only on Numpy and
 Scipy. If you will be plotting the data, then there is an `optional
 dependency`_ on Matplotlib as well.  
 
@@ -16,7 +18,9 @@ TO DO
 
 * Docstring for `AcidGasEq`
 
-* Curate examples, and devise a simple, unique test script for regression testing 
+* Curate examples, and devise a simple, unique test script for regression testing
+
+* Get faster solver from https://github.com/t-onoz/pHcalc/tree/speedup-calc
 
 
 .. _dependencies:
@@ -38,7 +42,12 @@ Optional Packages
 Installation
 ------------
 
-*pHcalc* is available via ``pip``, ``conda``, or the `GitHub repo`_ (most
+This is a fork of the original *pHcalc*. The fork does not have an installer.
+The folder `src\pHcalc` can simply be copied to the project folder, making the
+module available for import to scripts in the project folder. *pHcalc* is 
+'pure scientific Python' (only dependencies are numpy, scipy, matplotlib).
+
+The **original** *pHcalc* is available via ``pip``, ``conda``, or the `GitHub repo`_ (most
 recent).
 
 From PyPI::
