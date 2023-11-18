@@ -1,9 +1,9 @@
 # Calculation of solution pH in equilibrium with atmospheric carbon dioxide
 # using the AcidGas class
 #
-from pHcalc import Inert as IonAq
-from pHcalc import Acid as AcidAq
-from pHcalc import AcidGas as AcidGasEq
+from pHcalc import IonAq
+from pHcalc import AcidAq
+from pHcalc import AcidGasEq
 from pHcalc import System
 
 #

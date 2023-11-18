@@ -1,1 +1,1 @@
-from .pHcalc import Acid, AcidGas, Inert, System
+from .pHcalc import AcidAq, AcidGasEq, IonAq, System

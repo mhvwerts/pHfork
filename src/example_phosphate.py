@@ -3,9 +3,9 @@
 #
 #
 
-from pHcalc import Inert as IonAq
-from pHcalc import Acid as AcidAq
-from pHcalc import AcidGas as AcidGasEq
+from pHcalc import IonAq
+from pHcalc import AcidAq
+from pHcalc import AcidGasEq
 from pHcalc import System
 
 # phosphate pH 7.4

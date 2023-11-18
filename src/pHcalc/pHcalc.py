@@ -1,9 +1,8 @@
 import numpy as np
 import scipy.optimize as spo
 
-from .print_strings import *
 
-class Inert:
+class IonAq:
     """A nonreactive ion class.
 
     This object defines things like K+ and Cl-, which contribute to the
@@ -62,7 +61,7 @@ class Inert:
 
 
         
-class Acid:
+class AcidAq:
     '''An acidic species class.
 
     This object is used to calculate a number of parameters related to a weak
@@ -92,7 +91,7 @@ class Acid:
     Note
     ----
     There is no corresponding Base object. To define a base, you must use a
-    combination of an Acid and Inert object. See the documentation for
+    combination of an AcidAq and IonAq object. See the documentation for
     examples.
 
     '''
@@ -187,7 +186,7 @@ class Acid:
             return h3o_Ka/den
 
 
-class AcidGas(Acid):
+class AcidGasEq(AcidAq):
     def __init__(self, *args, Hs=None, Pgas=None, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -215,12 +214,12 @@ class System:
     Parameters
     ----------
     *species 
-        These are any number of Acid and Inert objects that you'd like to
+        These are any number of AcidAq and IonAq objects that you'd like to
         use to define your system.
 
     Kw : float (default 1.01e-14)
-        The autoionization constant for water. This can vary based on
-        temperature, for example. The default value is for water at
+        The autoionization constant for water. This may vary, e.g. as a
+        function of temperature. The default value is for water at
         298 K and 1 atm.
 
     Attibutes
@@ -240,6 +239,32 @@ class System:
         The pH of this particular system. This is only calculated after
         running the pHsolve method.
     '''
+    
+    
+    #####################################################
+    # print strings for system_print as class variables #
+    #####################################################
+
+    no_ph = '''### THE CONCENTRATIONS OF THIS SYSTEM ARE NOT AT EQUILIBRIUM ###
+    To determine the equilibrium species distribution use System.pHsolve\n\n'''
+    
+    has_ph = '''### THESE ARE THE EQUILIBRIUM SYSTEM CONCENTRATIONS ###
+    
+    SYSTEM pH: {0.pH:.3f}\n\n'''
+    
+    sep_line1 = '='*65 + '\n'
+    
+    sep_line2 = '-'*65 + '\n'
+    
+    header_line = f"{'Species':15}{'Charge':10}{'Ka':15}{'pKa':10}{'Conc':15}\n"
+    
+    acid_line = '{0:15}{1:<+10d}{2:<15.3e}{3:<10.2f}{4:<15.4e}\n'
+    
+    ion_line = '{0:15}{1:<+35d}{2:<15.4e}\n'
+    
+    #####################################################
+
+    
     def __init__(self, *species, Kw=1.01e-14):
         self.species = species
         self.Kw = Kw
@@ -255,11 +280,11 @@ class System:
 
         # Print a header based on the status of the system
         if not hasattr(self, 'pH'):
-            prt_str += no_ph
+            prt_str += self.no_ph
         else:
-            prt_str += has_ph.format(self)
-        prt_str += header_line
-        prt_str += sep_line1
+            prt_str += self.has_ph.format(self)
+        prt_str += self.header_line
+        prt_str += self.sep_line1
 
         # Print the species information
         # Need counters for acid/ion names and total charge concentration
@@ -269,8 +294,8 @@ class System:
         for cpd in self.species:
             # For acids, print information for all possible species
             # The final species will not have a Ka/pKa value
-            if isinstance(cpd, Acid):
-                name = cpd.name if cpd.name else f'Acid{acid_num}'
+            if isinstance(cpd, AcidAq):
+                name = cpd.name if cpd.name else f'AcidAq{acid_num}'
                 acid_num += 1
 
                 kas = list(cpd.Ka) + [np.nan,]
@@ -285,10 +310,10 @@ class System:
                 props = zip(cpd.charge, kas, pkas, concs)
                 for charge, ka, pka, conc in props:
                     if ka is not np.nan:
-                        prt_str += acid_line.format(name, charge, ka, pka, 
-                                            conc)
+                        prt_str += self.acid_line.format(name, charge, ka, 
+                                            pka, conc)
                     else:
-                        prt_str += ion_line.format(name, charge, conc)
+                        prt_str += self.ion_line.format(name, charge, conc)
 
                 charge_conc += (cpd.charge*concs).sum()
 
@@ -297,10 +322,10 @@ class System:
                 name = cpd.name if cpd.name else f'Ion{ion_num}'
                 ion_num += 1
 
-                prt_str += ion_line.format(name, cpd.charge, cpd.conc) 
+                prt_str += self.ion_line.format(name, cpd.charge, cpd.conc) 
                 charge_conc += cpd.charge*cpd.conc
             # Separate species with a different line
-            prt_str += sep_line2
+            prt_str += self.sep_line2
 
         # Hydronium/hydroxide concentrations
         if hasattr(self, 'pH'):
@@ -313,8 +338,8 @@ class System:
             possible_h3o = np.roots([1., charge_conc, -self.Kw])
             h3o = possible_h3o.max() # Must be positive num
             oh = self.Kw/h3o
-        prt_str += ion_line.format('H3O+', 1, h3o)
-        prt_str += ion_line.format('OH-', -1, oh)
+        prt_str += self.ion_line.format('H3O+', 1, h3o)
+        prt_str += self.ion_line.format('OH-', -1, oh)
 
         return prt_str
 
@@ -431,7 +456,7 @@ class System:
 if __name__ == '__main__':
     # KOH, just need to define the amount of K+, solver takes care of the
     # rest.
-    a = Inert(charge=+1, conc=0.1)
+    a = IonAq(charge=+1, conc=0.1)
     s = System(a)
     s.pHsolve()
     print('NaOH 0.1 M pH = ', s.pH)
@@ -440,7 +465,7 @@ if __name__ == '__main__':
     # [HCl] = 1.0 x 10**-8   aka the undergrad nightmare
     # You just need to define the amount of Cl-. The solver will find the
     # correct H3O+ concentration
-    b = Inert(charge=-1, conc=1e-8)
+    b = IonAq(charge=-1, conc=1e-8)
     s = System(b)
     s.pHsolve()
     print('HCl 1e-8 M pH = ', s.pH)
@@ -448,10 +473,10 @@ if __name__ == '__main__':
     
     # (NH4)3PO4
     # H3PO4 input as the fully acidic species
-    a = Acid(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
+    a = AcidAq(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
     # NH4+ again input as fully acidic species
     # The concentration is 3x greater than the phosphoric acid
-    b = Acid(pKa=9.498, charge=1, conc=3.e-3)
+    b = AcidAq(pKa=9.498, charge=1, conc=3.e-3)
     #k = neutral(charge=1, conc=1.e-4)
     #k = neutral(charge=-1, conc=3.e-3)
     s = System(a, b)
@@ -465,34 +490,52 @@ if __name__ == '__main__':
         print('Matplotlib not installed. Some examples not run.')
     else:
         # Distribution diagram H3PO4
-        a = Acid(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
+        a = AcidAq(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
         pH = np.linspace(0, 14, 1000)
+        plt.figure(1)
+        plt.clf()
+        plt.title('Distribution diagram H3PO4(aq)')
         plt.plot(pH, a.alpha(pH))
+        plt.xlabel('pH')
+        plt.ylabel('ion fraction')
         plt.show()
         
-        # Estimate Best pH
-        # This is done internallly by the pHsolve function if you use the
-        # guess_est=True flag
-        # This is just a graphical method for visualizing the difference in
-        # total positive and negative species in the system
+        # Initial guess pH
+        # This visualizes the method used internallly by the pHsolve function 
+        # if you use the guess_est=True flag
+        # It is based on (graphically) finding the pH at which the solution
+        # composition is closest to electroneutrality.
         s = System(a)
         diffs = s._diff_pos_neg(pH)
-        plt.plot(pH, diffs)
+        plt.figure(2)
+        plt.clf()
+        plt.title('1mM H3PO4(aq) - initial guess pH')
+        plt.semilogy(pH, diffs)
+        plt.xlabel('pH')
+        plt.ylabel('charge imbalance')
         plt.show()
+        print('Initial guess pH = ',pH[np.argmin(diffs)])
+        s.pHsolve()
+        print('pHsolve refined pH = ', s.pH)
 
         # Phosphoric Acid Titration Curve
         # First create a list of sodium hydroxide concentrations (titrant)
         Na_concs = np.linspace(1.e-8, 5.e-3, 500)
         # Here's our Acid
-        H3PO4 = Acid(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
+        H3PO4 = AcidAq(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
         phs = []
         for conc in Na_concs:
-            # Create a neutral Na+ with the concentration of the sodium
+            # Create an inert Na+ with the concentration of the sodium
             # hydroxide titrant added
-            Na = Inert(charge=1, conc=conc)
+            Na = IonAq(charge=1, conc=conc)
             # Define the system and solve for the pH
             s = System(H3PO4, Na)
             s.pHsolve(guess_est=True)
             phs.append(s.pH)
+        plt.figure(3)
+        plt.clf()
+        plt.title('Phosphoric Acid Titration Curve')
         plt.plot(Na_concs, phs)
+        plt.xlabel('total added NaOH concentration (M)')
+        plt.ylabel('pH')
         plt.show()

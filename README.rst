@@ -8,6 +8,17 @@ This package is Python3 compatible with dependencies_ only on Numpy and
 Scipy. If you will be plotting the data, then there is an `optional
 dependency`_ on Matplotlib as well.  
 
+
+TO DO
+-----
+
+* **Documentation out of date!** Update this README documentation to reflect latest changes
+
+* Docstring for `AcidGasEq`
+
+* Curate examples, and devise a simple, unique test script for regression testing 
+
+
 .. _dependencies:
 
 Dependencies
