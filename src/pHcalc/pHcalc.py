@@ -3,11 +3,13 @@ import scipy.optimize as spo
 
 
 class IonAq:
-    """A nonreactive ion class.
+    """An intert ion class.
 
-    This object defines things like K+ and Cl-, which contribute to the
+    This class defines things like K+ and Cl-, which contribute to the
     overall charge balance, but do not have any inherent reactivity with
-    water.
+    water. Adding ions without adding the corresponding counter-ions will
+    incite pHcalc to generate OH- or H+ as counter-ions. This is the behavior
+    corresponding to 'strong' bases (e.g. KOH) and acids (e.g. HCl)
     
     Parameters
     ----------
@@ -64,8 +66,9 @@ class IonAq:
 class AcidAq:
     '''An acidic species class.
 
-    This object is used to calculate a number of parameters related to a weak
-    acid in an aqueous solution. 
+    This class describes species that exist in different protonation states
+    in equilibrium. It is used to calculate a number of parameters related to 
+    a 'weak' acid in an aqueous solution. 
     
     Parameters
     ----------
@@ -187,7 +190,49 @@ class AcidAq:
 
 
 class AcidGasEq(AcidAq):
-    def __init__(self, *args, Hs=None, Pgas=None, **kwargs):
+    """
+    An acidic species with additional solution-gas equilibrium.
+    
+    This class, a subclass of AcidAq, treats those acidic species that 
+    exist in equilibrium with a gas-phase resevoir, which keeps the amount
+    of dissolved gas (the neutral form) constant. 
+    
+    The main application of this species is to model the effect of atmospheric
+    CO2 on the acid-base chemistry of the solution. Dissolved CO2(aq) exists 
+    partially as carbonic     acid (H2CO3)* which then further dissociates into
+    bicarbonate (HCO3-) and carbonate (CO3{2-}). This is favoured at high pH.
+    
+    *) CO2(aq) and H2CO3(aq) are treated as a single species and simply
+       referred to as CO2(aq), whose concentration is kept constant, and which
+       is in equilibrium with H+(aq) + HCO3-(aq)
+
+    Parameters
+    ----------
+    Ka, pKa, charge, conc : 
+        See AcidAq.
+    Hs : float
+        Henry solubility of the species (in [M atm-1] or [M Pa-1], 
+        depending on the units Pgas). For example, the value for CO2 in pure
+        water at 298K is 0.03429 M atm-1, taken from ref. [1], Table II, 
+        converted from molality to molarity, i.e. 0.997 * 10**-1.463
+    Pgas : float
+        The partial pressure of the species in the gas phase in [atm] or [Pa],
+        in consistence with Hs. The partial pressure is considered constant,
+        i.e. the gas phase is a reservoir of the species. For example, the
+        average Pgas for CO2 in the ambient atmosphere is currently 417e-6 atm
+        (it was 372e-6 atm in 1972). This value is rising over the years:
+        https://www.climate.gov/news-features/understanding-climate/climate-change-atmospheric-carbon-dioxide    
+    Additional keyword arguments : 
+        See AcidAq.
+    
+
+    [1] H. S. Harned, R. Davis.
+        "The Ionization Constant of Carbonic Acid in Water and the Solubility
+        of Carbon Dioxide in Water and Aqueous Salt Solutions from 0 to 50°."
+        J. Am. Chem. Soc. 1943, 65 , 2030
+
+    """
+    def __init__(self, *args, Hs, Pgas, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.gas_conc = Hs*Pgas
