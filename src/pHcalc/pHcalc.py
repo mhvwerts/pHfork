@@ -431,71 +431,56 @@ class System:
                 x += (s.conc*s.charge*alphas).sum()
             else:
                 x += (s.conc*s.charge*alphas).sum(axis=1)
+        return x
 
-        # Return the absolute value so it never goes below zero.
-        return np.abs(x)
         
 
-    def pHsolve(self, guess=7.0, guess_est=False, est_num=1500, 
-                method='Nelder-Mead', tol=1e-5):
+    def pHsolve(self, bracket=(-1, 15), method='brentq', xtol=1e-5, options=None,
+                guess=None, guess_est=None, est_num=None, tol=None):
         '''Solve the pH of the system.
 
-        The pH solving is done using a simple minimization algorithm which
-        minimizes the difference in the total positive and negative ion
-        concentrations in the system. The minimization algorithm can be
+        The pH solving is done using a root-search algorithm which
+        finds a root in the difference of the total positive and negative ion
+        concentrations in the system. The root-search algorithm can be
         adjusted using the `method` keyword argument. The available methods
-        can be found in the documentation for the scipy.optimize.minimize
+        can be found in the documentation for the scipy.optimize.root_scalar
         function.
-        
-        A good initial guess may help the minimization. It can be set manually
-        using the `guess` keyword, which defaults to 7.0. There is an
-        automated method that can be run as well if you set the `guess_est`
-        argument. This will override whatever you pass is for `guess`. The
-        `est_num` keyword sets the number of data points that you'd like to
-        use for finding the guess estimate. Too few points might start you
-        pretty far from the actual minimum; too many points is probably
-        overkill and won't help much. This may or may not speed things up.
 
         Parameters
         ----------
 
-        guess : float (default 7.0)
-            This is used as the initial guess of the pH for the system. 
+        bracket : a sequence of 2 floats (default (-1, 15))
+            An interval of pH values bracketing a root.
 
-        guess_est : bool (default False)
-            Run a simple algorithm to determine a best guess for the initial
-            pH of the solution. This may or may not slow down the calculation
-            of the pH.
-
-        est_num : int (default 1500)
-            The number of data points to use in the pH guess estimation.
-            Ignored unless `guess_est=True`.
-
-        method : str (default 'Nelder-Mead')
-            The minimization method used to find the pH. The possible values
+        method : str (default 'brentq')
+            The type of solver used to find the pH. The possible values
             for this variable are defined in the documentation for the
-            scipy.optimize.minimize function.
+            scipy.optimize.root_scalar function.
 
-        tol : float (default 1e-5)
-            The tolerance used to determine convergence of the minimization
+        xtol : float (default 1e-5)
+            The tolerance used to determine convergence of the root-searching
             function.
-        '''
-        if guess_est == True:
-            phs = np.linspace(0, 14, est_num)
-            guesses = self._diff_pos_neg(phs)
-            guess_idx = guesses.argmin()
-            guess = phs[guess_idx]
-            
-        self.pHsolution = spo.minimize(self._diff_pos_neg, guess, 
-                method=method, tol=tol)
-        
-        if self.pHsolution.success == False:
-            print('Warning: Unsuccessful pH optimization!')
-            print(self.pHsolution.message)
-            
-        if len(self.pHsolution.x) == 1:
-            self.pH = self.pHsolution.x[0]
 
+        options : dict, optional (default None)
+            A dictionary of solver options.
+        '''
+        if guess is not None:
+            print('Warning: option "guess" will be ignored.')
+        if guess_est is not None:
+            print('Warning: option "guess_est" will be ignored.')
+        if est_num is not None:
+            print('Warning: option "est_num" will be ignored.')
+        if tol is not None:
+            print('Warning: option "tol" will be ignored.')
+
+        options = options or dict()
+        self.pHsolution = spo.root_scalar(self._diff_pos_neg, bracket=bracket, method=method, xtol=xtol, **options)
+
+        if not self.pHsolution.converged:
+            print('Warning: Unsuccessful pH optimization!')
+            print(self.pHsolution.flag)
+
+        self.pH = self.pHsolution.root
 
 
 if __name__ == '__main__':
@@ -575,7 +560,7 @@ if __name__ == '__main__':
             Na = IonAq(charge=1, conc=conc)
             # Define the system and solve for the pH
             s = System(H3PO4, Na)
-            s.pHsolve(guess_est=True)
+            s.pHsolve()
             phs.append(s.pH)
         plt.figure(3)
         plt.clf()
