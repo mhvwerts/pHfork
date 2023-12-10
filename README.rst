@@ -23,8 +23,6 @@ TO DO
 
 * Add documentation for ``AcidGasEq`` to this README, and clean up.
 
-* Curate examples, and devise a simple, unique test script for regression testing
-
 
 
 .. _dependencies:
