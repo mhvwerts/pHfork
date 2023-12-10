@@ -21,13 +21,9 @@ The calculations considers 'effective' equilibrium constants, and ignores any ch
 TO DO
 -----
 
-* Add documentation for ``AcidGasEq`` to this README
-
-* Implement more efficient solver from https://github.com/t-onoz/pHcalc/tree/speedup-calc
+* Add documentation for ``AcidGasEq`` to this README, and clean up.
 
 * Curate examples, and devise a simple, unique test script for regression testing
-
-* Clean up README
 
 
 
