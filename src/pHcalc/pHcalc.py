@@ -175,7 +175,7 @@ class AcidAq:
         h3o_pow = h3o**( power[::-1] )
         # Calculate a cumulative product of the Ka values. The first value
         # must be 1.0, which is why _Ka_temp is used instead of Ka.
-        Ka_prod = np.cumproduct(self._Ka_temp)
+        Ka_prod = np.cumprod(self._Ka_temp)
         # Multiply the H3O**power values times the cumulative Ka product.
         h3o_Ka = h3o_pow*Ka_prod
 
@@ -531,20 +531,20 @@ if __name__ == '__main__':
         plt.show()
         
         # Initial guess pH
-        # This visualizes the method used internallly by the pHsolve function 
-        # if you use the guess_est=True flag
-        # It is based on (graphically) finding the pH at which the solution
+        #
+        # Here we use a graphical way of finding the pH at which the solution
         # composition is closest to electroneutrality.
+        # 
         s = System(a)
         diffs = s._diff_pos_neg(pH)
         plt.figure(2)
         plt.clf()
         plt.title('1mM H3PO4(aq) - initial guess pH')
-        plt.semilogy(pH, diffs)
+        plt.semilogy(pH, np.abs(diffs))
         plt.xlabel('pH')
         plt.ylabel('charge imbalance')
         plt.show()
-        print('Initial guess pH = ',pH[np.argmin(diffs)])
+        print('Initial guess pH = ',pH[np.argmin(np.abs(diffs))])
         s.pHsolve()
         print('pHsolve refined pH = ', s.pH)
 
