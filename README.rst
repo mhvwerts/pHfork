@@ -53,22 +53,33 @@ This is a fork of the original *pHcalc*. The fork does not have an installer.
 The folder ``src\pHcalc`` can simply be copied to the project folder, making the
 module available for import to scripts in the project folder. 
 
-The **original** *pHcalc* is available via ``pip``, ``conda``, or the `GitHub repo`_ (most
-recent).
-
-From PyPI::
-
-    $ pip install pHcalc
-
-Via Conda::
-
-    $ conda install -c rnelsonchem phcalc
-
 If you have ``git`` installed on your system, then you can get the most
 recent, unrelased version from the `GitHub repo`_::
 
-    $ pip install git+https://github.com/rnelsonchem/pHcalc.git
+    $ pip install git+https://github.com/mhvwerts/pHcalc.git
 
+
+Development environment
+-----------------------
+
+For development, clone the repository to a local directory::
+
+	$ git clone git@github.com:mhvwerts/pHcalc.git
+
+or unpack the ZIP downloaded from GitHub.
+
+A suitable development and test Python environment can be created with conda::
+
+    $ conda create --name phcalc_dev python numpy scipy matplotlib spyder jupyterlab
+    $ conda activate phcalc_dev
+
+
+Once the environment configured and activated, you can change your working directory to the local copy of the pHcalc repository and install an editable (development) version::
+
+
+	$ pip install --editable .
+
+(Do not forget the trailing dot!)
 
 
 Background
