@@ -53,8 +53,7 @@ This is a fork of the original *pHcalc*. The fork does not have an installer.
 The folder ``src\pHcalc`` can simply be copied to the project folder, making the
 module available for import to scripts in the project folder. 
 
-If you have ``git`` installed on your system, then you can get the most
-recent, unrelased version from the `GitHub repo`_::
+You can get the most recent, unrelased version from the `GitHub repo`_::
 
     $ pip install git+https://github.com/mhvwerts/pHcalc.git
 
@@ -539,7 +538,7 @@ In this example, we will titrate |H3PO4| with NaOH.
 
 .. External Hyperlinks
 
-.. _GitHub repo: https://github.com/rnelsonchem/pHcalc
+.. _GitHub repo: https://github.com/mhvwerts/pHcalc
 .. _PyPI: https://pypi.python.org/pypi/pHcalc
 .. _the Journal of Chemical Education:
       http://pubs.acs.org/doi/abs/10.1021/ed100784v
