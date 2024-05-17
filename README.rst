@@ -4,7 +4,7 @@ pHcalc (a fork)
 This is a forked version of *pHcalc* adapted for use in our lab. The original can be found at 
 https://github.com/rnelsonchem/pHcalc
 
-*pHcalc* is a Python (Python 3) library for systematic calculations of aqueous solution pH,
+*pHcalc* is a Python (Python 3.8 or later) library for systematic calculations of aqueous solution pH,
 distribution diagrams, and titration curves, using the simple law of mass action.
 
 Its only dependencies_ are Numpy and
@@ -30,9 +30,9 @@ TO DO
 Dependencies
 ------------
 
-* Numpy >= 1.10
+* Numpy >= 1.20
 
-* Scipy >= 0.17
+* Scipy >= 1.10
 
 .. _optional dependency:
 
