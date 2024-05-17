@@ -47,15 +47,16 @@ Optional Packages
 Installation
 ------------
 
-This is a fork of the original *pHcalc*. The fork does not have an installer.
-*pHcalc* is 
+This is a fork of the original *pHcalc*. *pHcalc* is 
 'pure scientific Python' (only dependencies are numpy, scipy, matplotlib).
-The folder ``src\pHcalc`` can simply be copied to the project folder, making the
-module available for import to scripts in the project folder. 
 
-You can get the most recent, unrelased version from the `GitHub repo`_::
+With ``pip``, you can install the most recent, unrelased version from 
+the `GitHub repo`_::
 
     $ pip install git+https://github.com/mhvwerts/pHcalc.git
+
+Alternatively, the folder ``src\pHcalc`` can simply be copied to your Python 
+project folder, making the module available for import to scripts in the project folder. 
 
 
 Development environment
