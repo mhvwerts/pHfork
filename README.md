@@ -1,6 +1,6 @@
 # pHfork
 
-*pHfork* is a Python (Python 3.8 or later) library for calculations of aqueous solution pH, ionic strength, distribution diagrams, and titration curves, using the simple law of mass action. It is a strongly modified version (a 'fork') of *pHcalc* adapted for work in our lab. The original *pHcalc* can be found at <https://github.com/rnelsonchem/pHcalc>
+*pHfork* is a Python library for calculations of aqueous solution pH, ionic strength, distribution diagrams, and titration curves, using the simple law of mass action. It is a strongly modified version (a 'fork') of R. Nelson's [*pHcalc*](https://github.com/rnelsonchem/pHcalc), adapted for work in our lab.
 
 *pHfork* is 'pure scientific Python': its only [dependencies](#dependencies) are NumPy and SciPy. If you will be plotting the data, then there is an optional dependency on `matplotlib` as well. For running the comparison between *pHfork* and *PHREEQC*, `phreeqpython` is needed.
 
@@ -14,6 +14,7 @@ All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who 
 
 ## Dependencies
 
+-	Python 3.8 or later
 -   Numpy \>= 1.20
 -   Scipy \>= 1.10
 
