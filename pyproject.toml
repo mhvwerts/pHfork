@@ -1,12 +1,12 @@
 # minimalist pyproject.toml
 
 [project]
-name = "pHcalc"
-version = "0.3.0"
+name = "pHfork"
+version = "0.4.0"
 authors = [
   {name="Ryan Nelson", email="rnelsonchem@gmail.com" },
-  {name="Martinus H. V. Werts"},
-  {name="T. Onoz"}
+  {name="T. Onoz"},
+  {name="Martinus H. V. Werts", email="martinus.werts@univ-angers.fr"},
 ]
 description = "Systematic pH calculation package for Python"
 keywords = [ "pH", "systematic", "distribution", "titration", "acid", "base" ]
@@ -25,7 +25,7 @@ dependencies = [
         ]
         
 [project.urls]
-"Homepage" = "https://github.com/mhvwerts/pHcalc"
+"Homepage" = "https://github.com/mhvwerts/pHfork"
 
 [build-system]
 requires = ["setuptools"]
