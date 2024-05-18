@@ -8,8 +8,8 @@ authors = [
   {name="T. Onoz"},
   {name="Martinus H. V. Werts", email="martinus.werts@univ-angers.fr"},
 ]
-description = "Systematic pH calculation package for Python"
-keywords = [ "pH", "systematic", "distribution", "titration", "acid", "base" ]
+description = "Generic pH calculation package for Python"
+keywords = [ "pH", "titration", "acid", "base", "equilibria" ]
 classifiers = [
     'Development Status :: 4 - Beta',
     'Intended Audience :: Science/Research',
