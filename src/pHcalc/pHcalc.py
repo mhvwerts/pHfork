@@ -64,7 +64,7 @@ class IonAq:
 
         
 class AcidAq:
-    '''An acidic species class.
+    """An acidic species class.
 
     This class describes species that exist in different protonation states
     in equilibrium. It is used to calculate a number of parameters related to 
@@ -97,7 +97,7 @@ class AcidAq:
     combination of an AcidAq and IonAq object. See the documentation for
     examples.
 
-    '''
+    """
     def __init__(self, Ka=None, pKa=None, charge=None, conc=None, name=None):
         # Do a couple quick checks to make sure that everything has been
         # defined.
@@ -138,7 +138,7 @@ class AcidAq:
         self.name = name
 
     def alpha(self, pH):
-        '''Return the fraction of each species at a given pH.
+        """Return the fraction of each species at a given pH.
 
         Parameters
         ----------
@@ -154,7 +154,7 @@ class AcidAq:
             NDArray of pH values is provided, then a 2D array will be
             returned. In this case, each row represents the speciation for
             each given pH.
-        '''
+        """
         # If the given pH is not a list/array, be sure to convert it to one
         # for future calcs.
         if isinstance(pH, (int, float)):
@@ -249,7 +249,7 @@ class AcidGasEq(AcidAq):
         
 
 class System:
-    '''An object used to define an a system of acid and neutral species.
+    """An object used to define an a system of acid and neutral species.
 
     This object accepts an arbitrary number of acid and neutral species
     objects and uses these to calculate the pH of the system. Be sure to
@@ -283,7 +283,7 @@ class System:
     pH : float
         The pH of this particular system. This is only calculated after
         running the pHsolve method.
-    '''
+    """
     
     
     #####################################################
@@ -315,11 +315,11 @@ class System:
         self.Kw = Kw
 
     def __str__(self, ):
-        '''Return a string representing the composition of the system.
+        """Return a string representing the composition of the system.
 
         The unformatted text strings used in this method are in a separate
         module `print_string.py`.
-        '''
+        """
         # The ultimate string to be returned from this method
         prt_str = ''
 
