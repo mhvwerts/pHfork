@@ -3,10 +3,10 @@
 #
 #
 
-from pHcalc import IonAq
-from pHcalc import AcidAq
-from pHcalc import AcidGasEq
-from pHcalc import System
+from pHfork import IonAq
+from pHfork import AcidAq
+from pHfork import AcidGasEq
+from pHfork import System
 
 # phosphate pH 7.4
 # H2PO4(-) <-> HPO4(2-) + H+

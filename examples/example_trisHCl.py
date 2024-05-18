@@ -3,10 +3,10 @@
 #
 #
 
-from pHcalc import IonAq
-from pHcalc import AcidAq
-from pHcalc import AcidGasEq
-from pHcalc import System
+from pHfork import IonAq
+from pHfork import AcidAq
+from pHfork import AcidGasEq
+from pHfork import System
 
 
 # Tris

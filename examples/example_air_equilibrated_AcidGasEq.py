@@ -1,10 +1,10 @@
 # Calculation of solution pH in equilibrium with atmospheric carbon dioxide
 # using the AcidGas class
 #
-from pHcalc import IonAq
-from pHcalc import AcidAq
-from pHcalc import AcidGasEq
-from pHcalc import System
+from pHfork import IonAq
+from pHfork import AcidAq
+from pHfork import AcidGasEq
+from pHfork import System
 
 #
 # CO2 / carbonic acid properties
@@ -80,9 +80,9 @@ def example1():
 # Reference temperature: 298 K
 #
 # At higher ionic strengths, deviations appear between the values calculated by
-# pHcalc and those from aqion/PHREEQC. This is due to the fact that PHREEQC
+# pHfork and those from aqion/PHREEQC. This is due to the fact that PHREEQC
 # uses activities and ionic strength-dependent equilibrium constants.
-# pHcalc uses simple mass-action law with constant equilibrium constants and
+# pHfork uses simple mass-action law with constant equilibrium constants and
 # actual concentrations
 
 def example2_benchmark(paramlist):
