@@ -1,12 +1,10 @@
-# pHcalc (a fork)
+# pHfork
 
-This is a forked version of *pHcalc* adapted for use in our lab. The original can be found at <https://github.com/rnelsonchem/pHcalc>
+*pHfork* is a Python (Python 3.8 or later) library for calculations of aqueous solution pH, ionic strength, distribution diagrams, and titration curves, using the simple law of mass action. It is a strongly modified version (a 'fork') of *pHcalc* adapted for work in our lab. The original *pHcalc* can be found at <https://github.com/rnelsonchem/pHcalc>
 
-*pHcalc* is a Python (Python 3.8 or later) library for systematic calculations of aqueous solution pH, distribution diagrams, and titration curves, using the simple law of mass action.
+*pHfork* is 'pure scientific Python': its only [dependencies](#dependencies) are NumPy and SciPy. If you will be plotting the data, then there is an optional dependency on `matplotlib` as well. For running the comparison between *pHfork* and *PHREEQC*, `phreeqpython` is needed.
 
-Its only [dependencies](#dependencies) are Numpy and Scipy. If you will be plotting the data, then there is an optional dependency on `matplotlib` as well. For running the comparison between *pHcalc* and *PHREEQC*, `phreeqpython` is needed.
-
-All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who should look them up in reliable literature references). *pHcalc* is not a database, it only solves the coupled mass-action equilibrium equations with the parameters (chemical property data) given by the user. The calculations considers 'effective' equilibrium constants, and ignores any changes in activity coefficients.
+All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who should look them up in reliable literature references). *pHfork* is not a database, it only solves the coupled mass-action equilibrium equations with the parameters (chemical property data) given by the user. The calculations considers 'effective' equilibrium constants, and ignores any changes in activity coefficients.
 
 # Installation and development
 
@@ -26,36 +24,34 @@ All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who 
 
 ## Installation
 
-*pHcalc* is 'pure scientific Python' (only dependencies are numpy, scipy, matplotlib).
+With `pip`, you can install the current version from the [GitHub repository](https://github.com/mhvwerts/pHfork):
 
-With `pip`, you can install the current version from the [GitHub repository](https://github.com/mhvwerts/pHcalc):
+    $ pip install git+https://github.com/mhvwerts/pHfork.git
 
-    $ pip install git+https://github.com/mhvwerts/pHcalc.git
+Alternatively, the folder `src\pHfork` may simply be copied to your Python project folder, making the module available for import to scripts in the project folder.
 
-Alternatively, the folder `src\pHcalc` may simply be copied to your Python project folder, making the module available for import to scripts in the project folder.
-
-If you would like to use *pHcalc* in  [Google Colab](https://colab.research.google.com/), you can enter the following in the first cell of a Colab Notebook:
+If you would like to use *pHfork* in  [Google Colab](https://colab.research.google.com/), you can enter the following in the first cell of a Colab Notebook:
 
 ```
-!pip install git+https://github.com/mhvwerts/pHcalc.git
+!pip install git+https://github.com/mhvwerts/pHfork.git
 ```
 
-This will install *pHcalc* in the active Colab instance, and make it available for import in the Notebook.
+This will install *pHfork* in the active Colab instance, and make it available for import in the Notebook.
 
 ## Development environment
 
 For development, clone the repository to a local directory:
 
-    $ git clone git@github.com:mhvwerts/pHcalc.git
+    $ git clone git@github.com:mhvwerts/pHfork.git
 
 or unpack the ZIP downloaded from GitHub.
 
 A suitable development and test Python environment can be created with conda:
 
-    $ conda create --name phcalc_dev python numpy scipy matplotlib spyder jupyterlab
-    $ conda activate phcalc_dev
+    $ conda create --name phfork_dev python numpy scipy matplotlib spyder jupyterlab
+    $ conda activate phfork_dev
 
-Once the environment configured and activated, you can change your working directory to the local copy of the pHcalc repository and install an editable (development) version:
+Once the environment configured and activated, you can change your working directory to the local copy of the pHfork repository and install an editable (development) version:
 
     $ pip install --editable .
 
@@ -63,7 +59,7 @@ Once the environment configured and activated, you can change your working direc
 
 ## Testing
 
-*pHcalc* is a small module with a small testing infrastructure, which does not use any specific testing library. All features are tested and illustrated (or should be). To test *pHcalc*, simply launch the following from within the root directory of the local project git repository.
+*pHfork* is a small module with a small testing infrastructure, which does not use any specific testing library. All features are tested and illustrated (or should be). To test *pHfork*, simply launch the following from within the root directory of the local project git repository.
 
 	$ python ./test_demo.py
 
@@ -71,16 +67,16 @@ Testing is most complete with `matplotlib` installed (which is usually the case)
 
 # Background
 
-*pHcalc* calculates the pH of a complex system of acids and bases using a systematic equilibrium solution method. This method is described in detail in [the Journal of Chemical Education](http://pubs.acs.org/doi/abs/10.1021/ed100784v) and in this [ChemWiki article](http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/06_Equilibrium_Chemistry/6G%3A_Solving_Equilibrium_Problems#6G.3_A_Systematic_Approach_to_Solving_Equilibrium_Problems), for example. (There was also another, older Pascal program called [PHCALC](http://pubs.acs.org/doi/pdf/10.1021/ed071p119), which uses matrix algebra to accomplish the same task. To the best of our knowledge, the source code for this program is no longer available.)
+*pHfork* calculates the pH of a complex system of acids and bases using a systematic equilibrium solution method. This method is described in detail in [the Journal of Chemical Education](http://pubs.acs.org/doi/abs/10.1021/ed100784v) and in this [ChemWiki article](http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/06_Equilibrium_Chemistry/6G%3A_Solving_Equilibrium_Problems#6G.3_A_Systematic_Approach_to_Solving_Equilibrium_Problems), for example. (There was also another, older Pascal program called [PHCALC](http://pubs.acs.org/doi/pdf/10.1021/ed071p119), which uses matrix algebra to accomplish the same task. To the best of our knowledge, the source code for this program is no longer available.)
 
 Basically, this method finds the equilibrium concentrations for the solution by systematically adjusting the pH until a charge balance is achieved, *i.e.* the concentrations of positively charged ions equals the charge for the negatively charged ions. For (polyprotic) weak acids, the fractional distribution of the species at a given pH value is determined. Multiplying this by the concentration of acid in solution provides the concentration of each species in the system, and these concentrations are used to balance the charge.
 
 # Defined Classes
 
-*pHcalc* defines three classes - AcidAq, IonAq, and System - which are used in calculating the pH of the system. H<sub>3</sub>O<sup>+</sup> and OH<sup>-</sup> are never explicitly defined; these concentrations are adjusted internally using K<sub>W</sub>.
+*pHfork* defines three classes - AcidAq, IonAq, and System - which are used in calculating the pH of the system. H<sub>3</sub>O<sup>+</sup> and OH<sup>-</sup> are never explicitly defined; these concentrations are adjusted internally using K<sub>W</sub>.
 
 ``` python
->>> from pHcalc import AcidAq, IonAq, System
+>>> from pHfork import AcidAq, IonAq, System
 ```
 
 The general definitions of these objects are given in the following list, with detailed usage examples outlined in the [examples](#examples) section below.
@@ -91,17 +87,17 @@ The general definitions of these objects are given in the following list, with d
 
 # Example Usage
 
-The examples below are meant to demonstrate a variety of different usage cases of the *pHcalc* classes described above. These example can be run from an interactive terminal (including Jupyter notebooks) or from a '.py' file. However, the following imports are assumed in every case.
+The examples below are meant to demonstrate a variety of different usage cases of the *pHfork* classes described above. These example can be run from an interactive terminal (including Jupyter notebooks) or from a '.py' file. However, the following imports are assumed in every case.
 
 ``` python
->>> from pHcalc import AcidAq, IonAq, System
+>>> from pHfork import AcidAq, IonAq, System
 >>> import numpy as np
 >>> import matplotlib.pyplot as plt # Optional for plotting below
 ```
 
 ## pH of 0.01 M HCl
 
-This simple example can be calculated in two different ways using *pHcalc*, which highlights the usage of all the defined object classes.
+This simple example can be calculated in two different ways using *pHfork*, which highlights the usage of all the defined object classes.
 
 ### Method 1
 
@@ -159,7 +155,7 @@ After running the `pHsolve` method, a new object attribute, `pH`, is created, wh
 
 ### Method 2
 
-An alternate method for determining the pH is to define a solution of chloride (Cl<sup>-</sup>) ions. HCl is typically considered a strong acid in aqueous solutions, because it is assumed that this molecule completely dissociates to equal amounts of H<sub>3</sub>O<sup>+</sup> and Cl<sup>-</sup>. Because *pHcalc* calculates the H<sub>3</sub>O<sup>+</sup> concentration internally, this species does not need to be included in the `System` call. Instead, we can define Cl<sup>-</sup> as an instance of the `IonAq` object class. These objects are used to define aqueous ions that are assumed to not directly participate in Bronsted-Lowry acid/base equilibria; however, their presence in solution affects the overall charge balance of the solution. Printing this system before equilibration shows an equal concentration of "Chloride" and "H<sub>3</sub>O<sup>+</sup>" (1.000e-02).
+An alternate method for determining the pH is to define a solution of chloride (Cl<sup>-</sup>) ions. HCl is typically considered a strong acid in aqueous solutions, because it is assumed that this molecule completely dissociates to equal amounts of H<sub>3</sub>O<sup>+</sup> and Cl<sup>-</sup>. Because *pHfork* calculates the H<sub>3</sub>O<sup>+</sup> concentration internally, this species does not need to be included in the `System` call. Instead, we can define Cl<sup>-</sup> as an instance of the `IonAq` object class. These objects are used to define aqueous ions that are assumed to not directly participate in Bronsted-Lowry acid/base equilibria; however, their presence in solution affects the overall charge balance of the solution. Printing this system before equilibration shows an equal concentration of "Chloride" and "H<sub>3</sub>O<sup>+</sup>" (1.000e-02).
 
 ``` python
 >>> cl = IonAq(charge=-1, conc=0.01, name='Chloride')
@@ -197,7 +193,7 @@ Equilibrating this system with the `pHsolve` method provides a solution with the
 
 ## pH of 1e-8 M HCl
 
-This is a notoriously tricky example for introductory chemistry students, since the autoprotolysis of water needs to be taken into account explicitly. *pHcalc* handles it nicely.
+This is a notoriously tricky example for introductory chemistry students, since the autoprotolysis of water needs to be taken into account explicitly. *pHfork* handles it nicely.
 
 ``` python
 >>> cl = IonAq(charge=-1, conc=1e-8)
