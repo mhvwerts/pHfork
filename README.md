@@ -5,7 +5,7 @@ This is a forked version of *pHcalc* adapted for use in our lab. The original ca
 *pHcalc* is a Python (Python 3.8 or later) library for systematic calculations of aqueous solution pH, distribution diagrams, and titration curves, using the simple law of mass action.
 
 Its only [dependencies](#dependencies) are Numpy and Scipy. If you will be plotting the data, then there is an [optional
-dependency](#optional dependency) on Matplotlib as well. For running the comparison between *pHcalc* and *PHREEQC*, `phreeqpython` is needed.
+dependency](#optional packages) on Matplotlib as well. For running the comparison between *pHcalc* and *PHREEQC*, `phreeqpython` is needed.
 
 All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who should look them up in reliable literature references). *pHcalc* is not a database, it only solves the coupled mass-action equilibrium equations with the parameters (chemical property data) given by the user. The calculations considers 'effective' equilibrium constants, and ignores any changes in activity coefficients.
 
