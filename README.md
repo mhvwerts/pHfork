@@ -34,6 +34,14 @@ With `pip`, you can install the current version from the [GitHub repository](htt
 
 Alternatively, the folder `src\pHcalc` may simply be copied to your Python project folder, making the module available for import to scripts in the project folder.
 
+If you would like to use *pHcalc* in  [Google Colab](https://colab.research.google.com/), you can enter the following in the first cell of a Colab Notebook:
+
+```
+!pip install git+https://github.com/mhvwerts/pHcalc.git
+```
+
+This will install *pHcalc* in the active Colab instance, and make it available for import in the Notebook.
+
 ## Development environment
 
 For development, clone the repository to a local directory:
