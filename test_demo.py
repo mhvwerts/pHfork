@@ -1,7 +1,7 @@
 import numpy as np
-from pHcalc import AcidAq, IonAq, AcidGasEq, System
+from pHfork import AcidAq, IonAq, AcidGasEq, System
 
-print('Demo and test of pHcalc.')
+print('Demo and test of pHfork.')
 print()
 print('The graph windows that appear on screen need to be closed one after')
 print('the other for the script to continue towards the end.')

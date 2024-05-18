@@ -8,7 +8,7 @@ class IonAq:
     This class defines things like K+ and Cl-, which contribute to the
     overall charge balance, but do not have any inherent reactivity with
     water. Adding ions without adding the corresponding counter-ions will
-    incite pHcalc to generate OH- or H+ as counter-ions. This is the behavior
+    incite pHfork to generate OH- or H+ as counter-ions. This is the behavior
     corresponding to 'strong' bases (e.g. KOH) and acids (e.g. HCl)
     
     Parameters
