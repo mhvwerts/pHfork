@@ -9,7 +9,6 @@ print()
 
 
 # NaCl
-
 na = IonAq(charge=+1, conc=0.1)
 cl = IonAq(charge=-1, conc=0.1)
 nacl = System(na, cl)
@@ -17,6 +16,7 @@ nacl.pHsolve()
 print('NaCl 0.1 M pH = ', nacl.pH)
 print('            I = ', nacl.I, 'M')
 print()
+
 
 # NaOH, just need to define the amount of Na+, solver takes care of the
 # rest.
@@ -26,6 +26,7 @@ s.pHsolve()
 print('NaOH 0.1 M pH = ', s.pH)
 print('            I = ', s.I, 'M')
 print()
+
 
 # NaOH, 0.1M but now in equilibrium with atmospheric CO2
 # (formation of carbonates)
@@ -61,7 +62,6 @@ pKa_H2CO3 = [6.35, 10.33]
 #     of Carbon Dioxide in Water and Aqueous Salt Solutions from 0 to 50°."
 #     J. Am. Chem. Soc. 1943, 65 , 2030
 
-
 CO2atm = AcidGasEq(charge = 0,
                    pKa = pKa_H2CO3,
                    Hs = H_s_CO2,
@@ -75,15 +75,15 @@ print()
 w = System()
 w.pHsolve()
 print('pure water, pH =', w.pH)
-print('             I =', w.I, 'M')
+# print('             I =', w.I, 'M')
 print()
 
 w_CO2atm = System(CO2atm)
 w_CO2atm.pHsolve()
 print('pure water, in equil. with atmospheric CO2, pH =',
       w_CO2atm.pH)
-print('pure water, in equil. with atmospheric CO2,  I =',
-      w_CO2atm.I)
+# print('                                             I =',
+#       w_CO2atm.I)
 print()
 
 
@@ -96,6 +96,7 @@ s.pHsolve()
 print('HCl 1e-8 M pH = ', s.pH)
 print()
 
+
 # (NH4)3PO4
 # H3PO4 input as the fully acidic species
 a = AcidAq(pKa=[2.148, 7.198, 12.375], charge=0, conc=1.e-3)
@@ -105,9 +106,17 @@ b = AcidAq(pKa=9.498, charge=1, conc=3.e-3)
 #k = neutral(charge=1, conc=1.e-4)
 #k = neutral(charge=-1, conc=3.e-3)
 s = System(a, b)
+print('(NH4)3PO4 1e-3 M')
+# print report before
+print(s)
+print()
 s.pHsolve()
 print('(NH4)3PO4 1e-3 M pH = ', s.pH)
 print()
+# print report after
+print(s)
+print()
+
 
 try:
     import matplotlib.pyplot as plt
