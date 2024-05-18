@@ -7,12 +7,24 @@ print('The graph windows that appear on screen need to be closed one after')
 print('the other for the script to continue towards the end.')
 print()
 
+
+# NaCl
+
+na = IonAq(charge=+1, conc=0.1)
+cl = IonAq(charge=-1, conc=0.1)
+nacl = System(na, cl)
+nacl.pHsolve()
+print('NaCl 0.1 M pH = ', nacl.pH)
+print('            I = ', nacl.I, 'M')
+print()
+
 # NaOH, just need to define the amount of Na+, solver takes care of the
 # rest.
 a = IonAq(charge=+1, conc=0.1)
 s = System(a)
 s.pHsolve()
 print('NaOH 0.1 M pH = ', s.pH)
+print('            I = ', s.I, 'M')
 print()
 
 # NaOH, 0.1M but now in equilibrium with atmospheric CO2
@@ -63,12 +75,15 @@ print()
 w = System()
 w.pHsolve()
 print('pure water, pH =', w.pH)
+print('             I =', w.I, 'M')
 print()
 
 w_CO2atm = System(CO2atm)
 w_CO2atm.pHsolve()
-print('pure water, in equilibrium with atmospheric CO2, pH =',
+print('pure water, in equil. with atmospheric CO2, pH =',
       w_CO2atm.pH)
+print('pure water, in equil. with atmospheric CO2,  I =',
+      w_CO2atm.I)
 print()
 
 

@@ -291,7 +291,7 @@ class System:
     #####################################################
 
     no_ph = '''### THE CONCENTRATIONS OF THIS SYSTEM ARE NOT AT EQUILIBRIUM ###
-    To determine the equilibrium species distribution use System.pHsolve\n\n'''
+    To determine the equilibrium species distribution use System.pHsolve()\n\n'''
     
     has_ph = '''### THESE ARE THE EQUILIBRIUM SYSTEM CONCENTRATIONS ###
     
@@ -308,17 +308,13 @@ class System:
     ion_line = '{0:15}{1:<+35d}{2:<15.4e}\n'
     
     #####################################################
-
-    
+   
     def __init__(self, *species, Kw=1.01e-14):
         self.species = species
         self.Kw = Kw
 
     def __str__(self, ):
         """Return a string representing the composition of the system.
-
-        The unformatted text strings used in this method are in a separate
-        module `print_string.py`.
         """
         # The ultimate string to be returned from this method
         prt_str = ''
@@ -389,15 +385,15 @@ class System:
         return prt_str
 
     def __repr__(self, ):
-        '''The representation of this object will be the same as printing for
+        """The representation of this object will be the same as printing for
         interactive terminals.
-        '''
+        """
         repr_str = self.__str__()
 
         return repr_str
 
     def _diff_pos_neg(self, pH):
-        '''Calculate the charge balance difference.
+        """Calculate the charge balance difference.
 
         Parameters
         ----------
@@ -412,7 +408,7 @@ class System:
             positive and negatively charged species in the system. A float is
             returned if an int or float is input as the pH: a Numpy array is
             returned if an array of pH values is used as the input.
-        '''
+        """
         twoD = True
         if isinstance(pH, (int, float)) or pH.shape[0] == 1:
             twoD = False
@@ -432,12 +428,33 @@ class System:
             else:
                 x += (s.conc*s.charge*alphas).sum(axis=1)
         return x
-
+    
+    def _get_ionic_strength(self):
+        """Calculate the ionic strength from the equilibrium composition
         
+        Can only be called after an equilibrium pH has been calculated.
+        
+        Uses
+        
+        $$I = \\tfrac{1}{2} \\sum_{i=1}^{n} c_i z_i^{2}$$        
+        """
+        
+        sum_cz2 = 0.0
+        # ionic species, except H+ and OH-
+        for s in self.species:
+            alphas = s.alpha(self.pH)
+            sum_cz2 += (s.conc * s.charge**2 * alphas).sum()
+        # H+, OH-
+        h3o = pow(10, -self.pH)
+        oh = self.Kw/h3o
+        sum_cz2 += h3o * (+1.0)**2
+        sum_cz2 +=  oh * (-1.0)**2
+        return 0.5*sum_cz2
 
-    def pHsolve(self, bracket=(-1, 15), method='brentq', xtol=1e-5, options=None,
-                guess=None, guess_est=None, est_num=None, tol=None):
-        '''Solve the pH of the system.
+    def pHsolve(self, bracket=(-1, 15), method='brentq', xtol=1e-5, 
+                options=None, guess=None, guess_est=None, est_num=None,
+                tol=None):
+        """Solve the pH of the system.
 
         The pH solving is done using a root-search algorithm which
         finds a root in the difference of the total positive and negative ion
@@ -463,7 +480,7 @@ class System:
 
         options : dict, optional (default None)
             A dictionary of solver options.
-        '''
+        """
         if guess is not None:
             print('Warning: option "guess" will be ignored.')
         if guess_est is not None:
@@ -474,10 +491,16 @@ class System:
             print('Warning: option "tol" will be ignored.')
 
         options = options or dict()
-        self.pHsolution = spo.root_scalar(self._diff_pos_neg, bracket=bracket, method=method, xtol=xtol, **options)
+        self.pHsolution = spo.root_scalar(self._diff_pos_neg,
+                                          bracket=bracket,
+                                          method=method,
+                                          xtol=xtol,
+                                          **options)
 
         if not self.pHsolution.converged:
             print('Warning: Unsuccessful pH optimization!')
             print(self.pHsolution.flag)
-
-        self.pH = self.pHsolution.root
+            self.pH = None
+        else:
+            self.pH = self.pHsolution.root
+            self.I = self._get_ionic_strength()
