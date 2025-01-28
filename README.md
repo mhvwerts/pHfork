@@ -27,9 +27,25 @@ All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who 
 
 With `pip`, you can install the current version from the [GitHub repository](https://github.com/mhvwerts/pHfork):
 
-    $ pip install git+https://github.com/mhvwerts/pHfork.git
+```
+$ pip install git+https://github.com/mhvwerts/pHfork.git
+```
 
 Alternatively, the folder `src\pHfork` may simply be copied to your Python project folder, making the module available for import to scripts in the project folder.
+
+
+### Development install
+
+For an editable, development-mode install, clone this repository locally. Then, from the root directory of the pHfork clone repository, invoke:
+
+```
+$ pip install -e .
+```
+
+(Do not forget the trailing dot)
+
+
+### Google Colab Installation
 
 If you would like to use *pHfork* in  [Google Colab](https://colab.research.google.com/), you can enter the following in the first cell of a Colab Notebook:
 
