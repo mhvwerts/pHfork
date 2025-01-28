@@ -60,5 +60,5 @@ print()
 
 
 print('for 0.1M stock (25 mol% NaH2PO4 + 75 mol% Na2HPO4): ')
-print(0.025 * 157.6, 'g/l NaH2PO4.2H2O')
-print(0.075 * 358.14, 'g/l Na2HPO4.12H2O')
+print(0.025 * 156.01, 'g/l NaH2PO4.2H2O')
+print(0.075 * 268.07, 'g/l Na2HPO4.7H2O')
