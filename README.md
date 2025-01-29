@@ -6,11 +6,7 @@
 
 All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who should look them up in reliable literature references). *pHfork* is not a database, it only solves the coupled mass-action equilibrium equations with the parameters (chemical property data) given by the user. The calculations considers 'effective' equilibrium constants, and ignores any changes in activity coefficients.
 
-# Installation and development
-
-## TO DO
-
--   Add documentation for `AcidGasEq` to this README, and clean up.
+# Installation
 
 ## Dependencies
 
@@ -23,7 +19,7 @@ All property data (Ka's or pKa's, Kw, etc.) should be provided by the user (who 
 -   Matplotlib \>= 1.5
 -   `phreeqpython`: <https://github.com/Vitens/phreeqpython>
 
-## Installation
+## Standard installation
 
 With `pip`, you can install the current version from the [GitHub repository](https://github.com/mhvwerts/pHfork):
 
@@ -34,7 +30,7 @@ $ pip install git+https://github.com/mhvwerts/pHfork.git
 Alternatively, the folder `src\pHfork` may simply be copied to your Python project folder, making the module available for import to scripts in the project folder.
 
 
-### Development install
+## Development install
 
 For an editable, development-mode install, clone this repository locally. Then, from the root directory of the pHfork clone repository, invoke:
 
@@ -45,7 +41,7 @@ $ pip install -e .
 (Do not forget the trailing dot)
 
 
-### Google Colab Installation
+## Google Colab install
 
 If you would like to use *pHfork* in  [Google Colab](https://colab.research.google.com/), you can enter the following in the first cell of a Colab Notebook:
 
@@ -55,7 +51,21 @@ If you would like to use *pHfork* in  [Google Colab](https://colab.research.goog
 
 This will install *pHfork* in the active Colab instance, and make it available for import in the Notebook.
 
+
+# Development 
+
+
+## TO DO
+
+-   Add documentation for `AcidGasEq` to this README, and clean up.
+
+
 ## Development environment
+
+A suitable development and test Python environment can be created with conda:
+
+    $ conda create --name phfork_dev python numpy scipy matplotlib spyder jupyterlab
+    $ conda activate phfork_dev
 
 For development, clone the repository to a local directory:
 
@@ -63,12 +73,7 @@ For development, clone the repository to a local directory:
 
 or unpack the ZIP downloaded from GitHub.
 
-A suitable development and test Python environment can be created with conda:
-
-    $ conda create --name phfork_dev python numpy scipy matplotlib spyder jupyterlab
-    $ conda activate phfork_dev
-
-Once the environment configured and activated, you can change your working directory to the local copy of the pHfork repository and install an editable (development) version:
+Change your working directory to the local copy of the pHfork repository and install an editable (development) version:
 
     $ pip install --editable .
 
@@ -81,6 +86,9 @@ Once the environment configured and activated, you can change your working direc
 	$ python ./test_demo.py
 
 Testing is most complete with `matplotlib` installed (which is usually the case). When launching the test script from the command line, the graph windows that appear should be closed one by one to continue to the next step of the test.
+
+
+---
 
 # Background
 
