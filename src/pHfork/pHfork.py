@@ -343,7 +343,7 @@ ionic strength: {0.I:.3e} M\n\n'''
                 pkas = list(cpd.pKa) + [np.nan,]
 
                 if hasattr(self, 'pH'):
-                    concs = cpd.alpha(self.pH)
+                    concs = cpd.alpha(self.pH) * cpd.conc
                 else:
                     concs = [cpd.conc,] + [0,]*len(cpd.Ka)
                     concs = np.array(concs)
